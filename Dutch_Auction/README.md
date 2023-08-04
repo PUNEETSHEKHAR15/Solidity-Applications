@@ -3,11 +3,12 @@
 Interfering the IERC721 transfer function from IERc721 contract
 
 // from which address to which address and which nft(nftid)
-
+```solidity 
 interface IERC721 {
 // from which address to which address and which nft(nftid)
 function transferFrom(address \_from, address \_to, uint nftId) external;
 }
+```
 
 \*\*Declaring the state variable
 
@@ -26,8 +27,8 @@ function transferFrom(address \_from, address \_to, uint nftId) external;
 7.discountRate=discount rate at which the price will decrease with time
 
 8.DURATION=>time of the auction , when its live
-
-uint private constant DURATION = 7 days;
+```solidity 
+    uint private constant DURATION = 7 days;
 
     IERC721 public immutable nft;
     uint public immutable nftId;
@@ -37,6 +38,7 @@ uint private constant DURATION = 7 days;
     uint public immutable startAt;
     uint public immutable expiresAt;
     uint public immutable discountRate;
+```
 
 \*\*constructor Entry point of he contract =>initallizes some values , \_startingPrice,\_discountRate,\_nft,\_nftId
 
@@ -47,7 +49,7 @@ startAt = block.timestamp;=> starting time
 expiresAt = block.timestamp + DURATION;=>expiring time
 
 require statment for checking price that is sent to buy nft more then cuurent price otherwise it displays the error
-
+```solidity 
     constructor(
         uint _startingPrice,
         uint _discountRate,
@@ -66,6 +68,7 @@ require statment for checking price that is sent to buy nft more then cuurent pr
         nft = IERC721(_nft);
         nftId = _nftId;
     }
+```
 
     getprice function is to fetch current price of the nft with decrease with time
 
@@ -84,6 +87,7 @@ after passing all the condiitons it will transfer nft from one owner contract ad
 then refund the amount of money which buyer has payed while buying nft
 
 at last delete or end the contract by selfDestruct by sending all ethers to seller
+```solidity 
 
 function buy() external payable {
 require(block.timestamp < expiresAt, "Auction Ended ");
@@ -96,3 +100,4 @@ payable(msg.sender).transfer(refund);
 }
 selfdestruct(payable(seller));
 }
+```
